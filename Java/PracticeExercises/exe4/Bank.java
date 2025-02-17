@@ -22,7 +22,7 @@ public class Bank {
         
     }
 
-    public void ListAccounts(int ctr) {
+    public void listAccounts(int ctr) {
         System.out.println("\nList of Bank Accounts");
         for(BankAccount i : account) {
             if(i instanceof SavingsAccount) {

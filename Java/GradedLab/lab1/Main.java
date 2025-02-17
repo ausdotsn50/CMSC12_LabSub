@@ -14,7 +14,7 @@ public class Main {
 
             switch (menuChoice) {
                 case 1:
-                    bk.createNewAccount(counter);
+                    // bk.createNewAccount(counter);
                     counter++;
                     break;
                 
