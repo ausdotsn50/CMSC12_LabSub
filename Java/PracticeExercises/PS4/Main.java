@@ -1,3 +1,13 @@
+// PS4 in CMSC 12: Fundamentals of Programming II
+
+/*
+PS description: 
+    - Application of inheritance and polymorphism concepts (method overriding)
+
+Submitted by: 
+    - Angela Denise Almazan
+*/
+
 import java.util.Scanner;
 
 public class Main {
