@@ -29,16 +29,7 @@ public class Main {
             counter++;
         } while(counter < employeeCount);
 
-
-        // for(index = 0; index < employeeCount; index++) {
-            
-
-            
-        // }
-
         em.showEmployee(employeeCount);
         scan.close();
     }
 }
-
-// em.showEmployee(index);

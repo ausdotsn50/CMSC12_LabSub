@@ -14,7 +14,7 @@ public class EmployeeManager {
         }
         else if(role == 2) {
             // new Professor
-            // employee[i] = new Professor(name, Id, 20000);
+            employee[i] = new Professor(name, Id, 20000);
         }
         else if(role == 3) {
             // new Dean
@@ -23,15 +23,34 @@ public class EmployeeManager {
     }
     
     public void showEmployee(int ctr) {
-        System.out.println("\nList of Bank Accounts");
-        for(Employee i : employee) {
-            if(i instanceof Instructor) {
-                Instructor temp = (Instructor) i;
-                System.out.println("Instructor");
-                System.out.println(temp.getBonus());
-            }
-        }
         System.out.println();
+        for(int i = 0; i < ctr; i++) {
+            if(employee[i] instanceof Instructor) {
+                Instructor temp = (Instructor) employee[i];
+                System.out.println("Employee " + (i + 1));
+                System.out.println("Role: Instructor");
+                System.out.println("Name: " + temp.getName());
+                System.out.println("Employee ID: " + temp.getEmployeeId());
+                System.out.println("Bonus: " + temp.getBonus());
+            }
+            else if(employee[i] instanceof Professor) {
+                Professor temp = (Professor) employee[i];
+                System.out.println("Employee " + (i + 1));
+                System.out.println("Role: Professor");
+                System.out.println("Name: " + temp.getName());
+                System.out.println("Employee ID: " + temp.getEmployeeId());
+                System.out.println("Bonus: " + temp.getBonus());
+            }
+            else if (employee[i] instanceof Dean) {
+                Dean temp = (Dean) employee[i];
+                System.out.println("Employee " + (i + 1));
+                System.out.println("Role: Dean");
+                System.out.println("Name: " + temp.getName());
+                System.out.println("Employee ID: " + temp.getEmployeeId());
+                System.out.println("Bonus: " + temp.getBonus());
+            }
+            System.out.println();
+        }
     }
 
 
