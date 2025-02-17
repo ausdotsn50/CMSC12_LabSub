@@ -5,7 +5,7 @@ public class Main {
         // variables here
         Scanner scan = new Scanner(System.in);
         
-        int employeeCount, role, employeeId, index;
+        int employeeCount, role, employeeId, counter = 0;
         String name;
 
         System.out.print("Enter the number of employees to add: ");
@@ -14,8 +14,8 @@ public class Main {
         EmployeeManager em = new EmployeeManager(employeeCount); // can use em.something() from here
         
         // adding employees here
-        for(index = 0; index < employeeCount; index++) {
-            System.out.print("\nEmployee " + (index + 1) + "\n1) Instructor\n2) Professor\n3) Dean\n");
+        do {
+            System.out.print("\nEmployee " + (counter + 1) + "\n1) Instructor\n2) Professor\n3) Dean\n");
             System.out.print("Enter role of the employee: ");
             role = scan.nextInt();
 
@@ -25,8 +25,16 @@ public class Main {
             System.out.print("Enter employee ID: ");
             employeeId = scan.nextInt();
 
-            em.addEmployee(role, name, employeeId, index);
-        }
+            em.addEmployee(role, name, employeeId, counter);
+            counter++;
+        } while(counter < employeeCount);
+
+
+        // for(index = 0; index < employeeCount; index++) {
+            
+
+            
+        // }
 
         em.showEmployee(employeeCount);
         scan.close();

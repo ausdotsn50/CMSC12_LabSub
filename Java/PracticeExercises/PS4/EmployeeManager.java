@@ -14,7 +14,7 @@ public class EmployeeManager {
         }
         else if(role == 2) {
             // new Professor
-            employee[i] = new Professor(name, Id, 20000);
+            // employee[i] = new Professor(name, Id, 20000);
         }
         else if(role == 3) {
             // new Dean
@@ -28,10 +28,6 @@ public class EmployeeManager {
             if(i instanceof Instructor) {
                 Instructor temp = (Instructor) i;
                 System.out.println("Instructor");
-                System.out.println(temp.getBonus());
-            } else if(i instanceof Professor) {
-                Professor temp = (Professor) i;
-                System.out.println("Professor");
                 System.out.println(temp.getBonus());
             }
         }
