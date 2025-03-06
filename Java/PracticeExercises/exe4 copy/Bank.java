@@ -1,18 +1,14 @@
 import java.util.Scanner;
 
 public class Bank {
-    Scanner scn = new Scanner(System.in); // reduce Scanner declaration redundancy
+    Scanner scn = new Scanner(System.in); 
 
-    // bank account array initialized [?]
-    // as this is initialize, i don't have to put array as parameter again and again [?]
-    private BankAccount[] account; // uses BankAccount (belongs to same directory)
+    private BankAccount[] account;
+    // private int ctr
     public Bank(int maxAccs) {
         account = new BankAccount[maxAccs];
     }
 
-
-    // creating correct instance
-    // can use method overloading too
     public void createNewAccount(int accNum, String accHolder, int accType, int ctr) {
         if(accType == 1) {
             account[ctr] = new SavingsAccount(accNum, accHolder, 0);
@@ -20,13 +16,12 @@ public class Bank {
         else if(accType == 2) {
             account[ctr] = new CreditAccount(accNum, accHolder, 0, 32500.5);
         }
-        
+        // ctr++ here instead
     }
 
     public void listAccounts(int ctr) {
         System.out.println("\nList of Bank Accounts");
         for(BankAccount i : account) {
-            // can be treated as BankAccount account.getHolder()
             if(i instanceof SavingsAccount) {
                 SavingsAccount temp = (SavingsAccount) i;
                 System.out.println("Savings Account");
@@ -45,33 +40,10 @@ public class Bank {
         System.out.println();
     }
 
-/* 
-    public void displayAccounts(int index) {
-        System.out.println("\nList of Bank Accounts:");
-        for (int i = 0; i < index; i++) {
-            if (account[i] != null) { // Ensure the slot is not empty
-                System.out.println("Account Number: " + account[i].getNumber());
-                System.out.println("Account Holder: " + account[i].getHolder());
-                System.out.println("Balance: " + account[i].getBalance());
-                System.out.println("-------------------------");
-            }
-        }
-    }
-*/
-
     public void deposit(int accNum, double amt, int ctr) {
         for(int i = 0; i < ctr; i++) {
             if(accNum == account[i].getNumber()) {
                 account[i].deposit(amt);
-                break;
-            }
-        }
-    }
-
-    public void withdraw(int accNum, double amt, int ctr) {
-        for(int i = 0; i < ctr; i++) {
-            if(accNum == account[i].getNumber()) {
-                account[i].withdraw(amt);
                 break;
             }
         }
@@ -85,7 +57,4 @@ public class Bank {
             }
         }
     }
-
-    // private BankAcct find account, method
-
 }

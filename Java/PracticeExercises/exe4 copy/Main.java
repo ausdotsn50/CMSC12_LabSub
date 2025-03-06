@@ -45,7 +45,7 @@ public class Main {
                         else if(logChoice == 2) {
                             System.out.print("Enter withdraw amount: ");
                             amount = scan.nextDouble();
-                            bk.withdraw(accountNumber, amount, counter);
+                            // bk.withdraw(accountNumber, amount, counter);
                         }
                         else if(logChoice == 3) {
                             bk.checkBalance(accountNumber, counter);

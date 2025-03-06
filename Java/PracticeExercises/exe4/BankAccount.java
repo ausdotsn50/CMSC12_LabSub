@@ -65,7 +65,12 @@ public class BankAccount {
     }
 
     public void withdraw(double amount) {
-        balance -= amount;
+        if(balance - amount >= 0) {
+            balance -= amount;
+        }
+        else {
+            System.out.println("Insufficient balance");
+        }
     }
 
     public double checkBalance() {
