@@ -1,3 +1,13 @@
+// PS7 in CMSC 12: Fundamentals of Programming II
+
+/*
+PS description: 
+    - Rewriting the Slambook problem set while playing around ArrayList and HashMap
+
+Submitted by: 
+    - Angela Denise Almazan
+*/
+
 import java.util.Scanner;
 
 public class Main {
