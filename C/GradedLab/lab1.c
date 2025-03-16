@@ -27,7 +27,7 @@ int main() {
     // reading from txt and storing to struct
     int employee_count = 0;
     char reader[50];
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < MAX_EMPLOYEES; i++) {
         // if NULL basically
         if(fscanf(ptr, "%d", &employees[i].id) != 1) {
             break;

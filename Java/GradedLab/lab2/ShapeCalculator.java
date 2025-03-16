@@ -50,4 +50,15 @@ public class ShapeCalculator {
             }
         }
     }
+
+    public void displayShapes2(int shpCount) {
+        for(Shape i : shape) {
+            if(i instanceof Cirlce) {
+                System.out.println("Circle");
+                Circle temp = (Circle) i;
+                System.out.println("Print area: " + temp.getArea());
+            }
+
+        }
+    }
 }
