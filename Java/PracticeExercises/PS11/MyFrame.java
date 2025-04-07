@@ -1,17 +1,17 @@
+import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.LineBorder;
-import java.awt.Color;
-import java.awt.Dimension;
+
+import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.BorderLayout;
-import javax.swing.border.EmptyBorder;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class MyFrame extends JFrame {
+public class MyFrame extends JFrame implements ActionListener {
     public MyFrame() {
         int width = 300;
         int height = 450;
@@ -77,6 +77,7 @@ public class MyFrame extends JFrame {
         for (String button : calcButtons) {
             JButton btn = new JButton(button); // JButton for String array elements
             buttonsPanel.add(btn);
+            btn.addActionListener(this);
         }
 
         buttonWrapper.add(buttonsPanel, BorderLayout.CENTER);
@@ -103,5 +104,15 @@ public class MyFrame extends JFrame {
         wrapper.setLayout(new BorderLayout());
         wrapper.setBorder(new EmptyBorder(top, 10, bot, 10));
         return wrapper;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getActionCommand() == "7") {
+            System.out.println("Pressed 7");
+        }
+        else {
+            System.out.println("Not 7");
+        }
     }
 }
