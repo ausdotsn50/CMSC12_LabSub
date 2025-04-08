@@ -1,4 +1,12 @@
-// This calculator can only handle simple arithmetic operations
+/* 
+ * FEATURES TO IMPROVE
+ * 
+ * Follows MDAS
+ * If decimal rightmost all 0, format as just an integer instead
+ * Try 2 decimal point precision
+ * 
+ * note: code still contains bugs
+*/
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -31,7 +39,7 @@ public class MyFrame extends JFrame {
 
     // to distinguish number and operator buttons
     // equal not placed in array but will serve special function
-    private String[] numButtons = {"7", "8", "9", "4", "5", "6", "1", "2", "3", "0"};
+    // private String[] numButtons = {"7", "8", "9", "4", "5", "6", "1", "2", "3", "0"};
     private String[] operatorButtons = {"*", "/", "+", "-", "."}; // in MDAS format
 
     // array of all calculator buttons
@@ -142,25 +150,26 @@ public class MyFrame extends JFrame {
                  * In Java the substring() method works with the first parameter being inclusive and the second parameter being exclusive. 
                  * Meaning "Hello".substring(0, 2); will result in the string He.
                 */
-                textField.setText(textField.getText().substring(0, textField.getText().length() - 1));
+                backspaceFunction();
             }
             else if(e.getSource() == clearButton) {
-                textField.setText("");
+                clearFunction();
             }
 
             // how about assume a two input count only
             for(int i = 0; i < calcButtons.length; i++) {
                 if(e.getSource() == calcButtons[i]) {
-                    /* from stackoverflow thread: Arrays.asList(yourArray).contains(yourValue)*/
+                    /* from stackoverflow thread: Arrays.asList(yourArray).contains(yourValue) */
                     // this checks if the button checked is an operator or not
                     
                     // FIXED: cannot press operators consecutively
                     // used then button clicked is an operator
                     if(Arrays.asList(operatorButtons).contains(calcButtonsLabel[i])) {
-                        String[] currentText = textField.getText().split("(?<=[-+*/])|(?=[-+*/])");
-                        // .equals() for string compare!!!
-                        int currentLength = currentText.length - 1; 
-                        if(Arrays.asList(operatorButtons).contains(currentText[currentLength])) { // currentText[currentLength] is the last element
+                        
+                        String[] currentText = textField.getText().split("(?<=[*/+-.])|(?=[*/+-.])");
+                        int currentLength = currentText.length - 1;
+                        
+                        if(textField.getText().isEmpty() || Arrays.asList(operatorButtons).contains(currentText[currentLength])) { // currentText[currentLength] is the last element
                             return;
                         }
                         else {
@@ -170,8 +179,9 @@ public class MyFrame extends JFrame {
                     }
                     // used when button click is the equal sign
                     else if(calcButtonsLabel[i].equals("=")) {
-                        System.out.println("Equal sign pressed, no text should show");
-                        // make a function evaluate expression
+                        if(textField.getText().isEmpty()) {
+                            return;
+                        }
                         double result = evaluateExpression(textField.getText()); // fix for MDAS
                         textField.setText("" + result);
                     }
@@ -199,14 +209,11 @@ public class MyFrame extends JFrame {
             textField.setText(textField.getText() + input);
         }
 
-
+        // to fix more in detail
         @Override
         public void keyPressed(KeyEvent e) {
             if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
-                String text = textField.getText();
-                if (!text.isEmpty()) {
-                    textField.setText(text.substring(0, text.length() - 1));
-                }
+                backspaceFunction();
             }
             else if(e.getKeyCode() == KeyEvent.VK_ENTER) {
                 double result = evaluateExpression(textField.getText());
@@ -258,6 +265,19 @@ public class MyFrame extends JFrame {
         }
         return result;
     }
+
+    public void backspaceFunction() {
+        if(!textField.getText().isEmpty()) {
+            textField.setText(textField.getText().substring(0, textField.getText().length() - 1));
+        }
+    }
+
+    public void clearFunction() {
+        if(!textField.getText().isEmpty()) {
+            textField.setText("");
+        }
+    }
+
 }
 
 /* 
