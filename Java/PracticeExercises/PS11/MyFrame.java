@@ -2,10 +2,11 @@
  * FEATURES TO IMPROVE
  * 
  * Follows MDAS
+ * Only one decimal point per number
  * If decimal rightmost all 0, format as just an integer instead
- * Try 2 decimal point precision
  * 
  * note: code still contains bugs
+ * note: textField focusable, click textField to make use of key inputs
 */
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
@@ -39,7 +40,6 @@ public class MyFrame extends JFrame {
 
     // to distinguish number and operator buttons
     // equal not placed in array but will serve special function
-    // private String[] numButtons = {"7", "8", "9", "4", "5", "6", "1", "2", "3", "0"};
     private String[] operatorButtons = {"*", "/", "+", "-", "."}; // in MDAS format
 
     // array of all calculator buttons
@@ -156,7 +156,7 @@ public class MyFrame extends JFrame {
                 clearFunction();
             }
 
-            // how about assume a two input count only
+            // decimal point needs fixing still for buttonss
             for(int i = 0; i < calcButtons.length; i++) {
                 if(e.getSource() == calcButtons[i]) {
                     /* from stackoverflow thread: Arrays.asList(yourArray).contains(yourValue) */
@@ -172,6 +172,7 @@ public class MyFrame extends JFrame {
                         if(textField.getText().isEmpty() || Arrays.asList(operatorButtons).contains(currentText[currentLength])) { // currentText[currentLength] is the last element
                             return;
                         }
+
                         else {
                             textField.setText(textField.getText() + calcButtonsLabel[i]);
                         }
@@ -194,20 +195,33 @@ public class MyFrame extends JFrame {
         }
 
         @Override
+        
         public void keyTyped(KeyEvent e) {
-            char ch = e.getKeyChar();
-            String input = "";
-
-            switch (ch) {
-                case '0': case '1': case '2': case '3': case '4':
-                case '5': case '6': case '7': case '8': case '9':
-                case '+': case '-': case '*': case '/': case '.':
-                    input = String.valueOf(ch);
-                    break;
+            char getChar = e.getKeyChar();
+            String charTyped = String.valueOf(getChar); // converts ch to String: https://www.digitalocean.com/community/tutorials/convert-char-to-string-java
+            
+            if(Arrays.asList(calcButtonsLabel).contains(charTyped)) {
+                if(Arrays.asList(operatorButtons).contains(charTyped)) {
+                        
+                    String[] currentText = textField.getText().split("(?<=[*/+-.])|(?=[*/+-.])");
+                    int currentLength = currentText.length - 1;
+                    
+                    if(textField.getText().isEmpty() || Arrays.asList(operatorButtons).contains(currentText[currentLength])) { // currentText[currentLength] is the last element
+                        return;
+                    }
+                    else {
+                        textField.setText(textField.getText() + charTyped);
+                    }
+                }
+                else if(charTyped.equals("=")) {
+                    return;
+                }
+                else {
+                    textField.setText(textField.getText() + charTyped);
+                }  
             }
-
-            textField.setText(textField.getText() + input);
         }
+
 
         // to fix more in detail
         @Override
@@ -224,6 +238,7 @@ public class MyFrame extends JFrame {
     
         @Override
         public void keyReleased(KeyEvent e) {
+            
         }
 
     }
