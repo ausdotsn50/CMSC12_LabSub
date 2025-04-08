@@ -32,7 +32,7 @@ public class MyFrame extends JFrame {
     // to distinguish number and operator buttons
     // equal not placed in array but will serve special function
     private String[] numButtons = {"7", "8", "9", "4", "5", "6", "1", "2", "3", "0"};
-    private String[] operatorButtons = {"/", "*", "-", "+", "."};
+    private String[] operatorButtons = {"*", "/", "+", "-", "."}; // in MDAS format
 
     // array of all calculator buttons
     private JButton[] calcButtons = new JButton[calcButtonsLabel.length];
@@ -154,14 +154,13 @@ public class MyFrame extends JFrame {
                     /* from stackoverflow thread: Arrays.asList(yourArray).contains(yourValue)*/
                     // this checks if the button checked is an operator or not
                     
+                    // FIXED: cannot press operators consecutively
                     // used then button clicked is an operator
                     if(Arrays.asList(operatorButtons).contains(calcButtonsLabel[i])) {
-                        
                         String[] currentText = textField.getText().split("(?<=[-+*/])|(?=[-+*/])");
-
                         // .equals() for string compare!!!
                         int currentLength = currentText.length - 1; 
-                        if(currentText[currentLength].equals("+")) { // currentText[currentLength] is the last element
+                        if(Arrays.asList(operatorButtons).contains(currentText[currentLength])) { // currentText[currentLength] is the last element
                             return;
                         }
                         else {
@@ -173,12 +172,11 @@ public class MyFrame extends JFrame {
                     else if(calcButtonsLabel[i].equals("=")) {
                         System.out.println("Equal sign pressed, no text should show");
                         // make a function evaluate expression
-                        double result = evaluateExpression(textField.getText());
+                        double result = evaluateExpression(textField.getText()); // fix for MDAS
                         textField.setText("" + result);
                     }
                     // used when button clicked are numbers
                     else {
-                        System.out.println("Button pressed is not an operator");
                         textField.setText(textField.getText() + calcButtonsLabel[i]);
                     }   
                 }
