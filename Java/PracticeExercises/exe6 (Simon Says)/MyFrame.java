@@ -14,25 +14,34 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 
 public class MyFrame extends JFrame {
+    // Frame Dimensions
+    private int width = 1000, height = 500;
+
     // red, blue, green, orange
+    // boxes to be detected
     private JPanel p1Box1, p1Box2, p1Box3, p1Box4;
     private JPanel spBox;
     private JPanel p2Box1, p2Box2, p2Box3, p2Box4;
 
+    // buttons to be detected
     private JButton p1Submit, p1Clear;
     private JButton p2Submit, p2Clear;
 
+    // labels to be detected
+    private JLabel roundLabel, sp, player1, player2;
+
     // by default, player 1's turn first
-    private boolean player1 = true, player2 = false;
+    private boolean p1guessing = true, p2guessing = false;
 
     // for selected color checking
     private Color p1Color, p2Color;
 
-    private int score = 0;
+    private int roundCount = 1;
+    private int p1score = 0, p2score = 0;
 
     public MyFrame() {
         EventHandler handler = new EventHandler();
-        int width = 1000, height = 500;
+        
 
         // MyFrame properties
         setSize(width, height);
@@ -45,13 +54,23 @@ public class MyFrame extends JFrame {
         getContentPane().setBackground(Color.lightGray); // proper background setting...
 
         // Divided frame into 2 main panels
-        JPanel titlePanel = new JPanel(new FlowLayout()); 
+        JPanel titlePanel = new JPanel(new BorderLayout()); 
         JPanel gamePanel = new JPanel(new GridLayout(1, 3, 10, 0));
         
         // Title
+        JPanel titleTop = new JPanel(new FlowLayout());
+        JPanel titleBot = new JPanel(new FlowLayout());
+
         JLabel titleLabel = new JLabel("Simon Says Game");
         titleLabel.setFont(new Font("Cambria Math", Font.BOLD, 25));
-        titlePanel.add(titleLabel);
+        titleTop.add(titleLabel);
+
+        roundLabel = new JLabel("Round " + roundCount);
+        roundLabel.setFont(new Font("Cambria Math", Font.BOLD, 20));
+        titleBot.add(roundLabel);
+
+        titlePanel.add(titleTop, BorderLayout.NORTH);
+        titlePanel.add(titleBot, BorderLayout.SOUTH);
 
         // Divide game panel into three panels
         JPanel column1 = new JPanel(new BorderLayout());
@@ -67,7 +86,7 @@ public class MyFrame extends JFrame {
 
         // Contents of Column 1
         JPanel p1Label = new JPanel(new FlowLayout());
-        JLabel player1 = new JLabel("Player 1");
+        player1 = new JLabel("Player 1 - " + p1score);
         player1.setFont(new Font("Cambria Math", Font.BOLD, 12));
         p1Label.add(player1);
         column1.add(p1Label, BorderLayout. NORTH);
@@ -108,6 +127,7 @@ public class MyFrame extends JFrame {
         p1Submit = new JButton("Submit");
         p1Submit.addActionListener(handler); // action listener for submit
         p1Clear = new JButton("Clear");
+        p1Clear.addActionListener(handler);
         
         p1Button.add(p1Submit);
         p1Button.add(p1Clear);
@@ -116,7 +136,7 @@ public class MyFrame extends JFrame {
 
         // Contents of Column 2
         JPanel spLabel = new JPanel(new FlowLayout());
-        JLabel sp = new JLabel("Show Panel");
+        sp = new JLabel("Player 1's turn");
         sp.setFont(new Font("Cambria Math", Font.BOLD, 12));
         spLabel.add(sp);
         column2.add(spLabel, BorderLayout. NORTH);
@@ -135,7 +155,7 @@ public class MyFrame extends JFrame {
 
         // Contents for Column 3
         JPanel p2Label = new JPanel(new FlowLayout());
-        JLabel player2 = new JLabel("Player 2");
+        player2 = new JLabel("Player 2 - " + p2score);
         player2.setFont(new Font("Cambria Math", Font.BOLD, 12));
         p2Label.add(player2);
         column3.add(p2Label, BorderLayout. NORTH);
@@ -171,6 +191,7 @@ public class MyFrame extends JFrame {
         p2Submit = new JButton("Submit");
         p2Submit.addActionListener(handler); // action listener for submit
         p2Clear = new JButton("Clear");
+        p2Clear.addActionListener(handler);
         
         p2Button.add(p2Submit);
         p2Button.add(p2Clear);
@@ -186,57 +207,97 @@ public class MyFrame extends JFrame {
     public class EventHandler implements ActionListener, MouseListener {
         @Override
         public void mouseClicked(MouseEvent e) {
-            // red, blue, green, orange
-            if(player1) {
-                if(e.getSource() == p1Box1) {
-                    spBox.setBackground(Color.RED);
-                    System.out.println("Player 1 clicked red");
-                    p1Color = Color.RED;
-                    
+            if(roundCount % 2 != 0) {
+                if(p1guessing) {
+                    if(e.getSource() == p1Box1) {
+                        spBox.setBackground(Color.RED);
+                        p1Color = Color.RED;
+                        
+                    }
+                    else if(e.getSource() == p1Box2) {
+                        spBox.setBackground(Color.BLUE);
+                        p1Color = Color.BLUE;
+                        
+                    }
+                    else if(e.getSource() == p1Box3) {
+                        spBox.setBackground(Color.GREEN);
+                        p1Color = Color.GREEN;
+                        
+                    }
+                    else if(e.getSource() == p1Box4) {
+                        spBox.setBackground(Color.ORANGE);
+                        p1Color = Color.ORANGE;
+                    }
                 }
-                else if(e.getSource() == p1Box2) {
-                    spBox.setBackground(Color.BLUE);
-                    System.out.println("Player 1 clicked blue");
-                    p1Color = Color.BLUE;
-                    
-                }
-                else if(e.getSource() == p1Box3) {
-                    spBox.setBackground(Color.GREEN);
-                    System.out.println("Player 1 clicked green");
-                    p1Color = Color.GREEN;
-                    
-                }
-                else if(e.getSource() == p1Box4) {
-                    spBox.setBackground(Color.ORANGE);
-                    System.out.println("Player 1 clicked orange");   
-                    p1Color = Color.ORANGE;
-                }
-            }
 
-            if(player2) {
-                if(e.getSource() == p2Box1) {
-                    spBox.setBackground(Color.RED);
-                    System.out.println("Player 2 clicked red");
-                    p2Color = Color.RED;
+                if(p2guessing) {
+                    if(e.getSource() == p2Box1) {
+                        spBox.setBackground(Color.RED);
+                        p2Color = Color.RED;
+                        
+                    }
+                    else if(e.getSource() == p2Box2) {
+                        spBox.setBackground(Color.BLUE);
+                        p2Color = Color.BLUE;
+                        
+                    }
+                    else if(e.getSource() == p2Box3) {
+                        spBox.setBackground(Color.GREEN);
+                        p2Color = Color.GREEN;
+                        
+                    }
+                    else if(e.getSource() == p2Box4) {
+                        spBox.setBackground(Color.ORANGE);
+                        p2Color = Color.ORANGE;
+                        
+                    }
                     
                 }
-                else if(e.getSource() == p2Box2) {
-                    spBox.setBackground(Color.BLUE);
-                    System.out.println("Player 2 clicked blue");
-                    p2Color = Color.BLUE;
-                    
+                
+            } else if(roundCount % 2 == 0){
+                if(p1guessing) {
+                    if(e.getSource() == p1Box1) {
+                        spBox.setBackground(Color.RED);
+                        p1Color = Color.RED;
+                        
+                    }
+                    else if(e.getSource() == p1Box2) {
+                        spBox.setBackground(Color.BLUE);
+                        p1Color = Color.BLUE;
+                        
+                    }
+                    else if(e.getSource() == p1Box3) {
+                        spBox.setBackground(Color.GREEN);
+                        p1Color = Color.GREEN;
+                        
+                    }
+                    else if(e.getSource() == p1Box4) {
+                        spBox.setBackground(Color.ORANGE); 
+                        p1Color = Color.ORANGE;
+                    }
                 }
-                else if(e.getSource() == p2Box3) {
-                    spBox.setBackground(Color.GREEN);
-                    System.out.println("Player 2 clicked green");
-                    p2Color = Color.GREEN;
-                    
-                }
-                else if(e.getSource() == p2Box4) {
-                    spBox.setBackground(Color.ORANGE);
-                    System.out.println("Player 2 clicked orange");  
-                    p2Color = Color.ORANGE;
-                    
+                
+                if(p2guessing) {
+                    if(e.getSource() == p2Box1) {
+                        spBox.setBackground(Color.RED);
+                        p2Color = Color.RED;
+                        
+                    }
+                    else if(e.getSource() == p2Box2) {
+                        spBox.setBackground(Color.BLUE);
+                        p2Color = Color.BLUE;
+                        
+                    }
+                    else if(e.getSource() == p2Box3) {
+                        spBox.setBackground(Color.GREEN);
+                        p2Color = Color.GREEN;
+                        
+                    }
+                    else if(e.getSource() == p2Box4) {
+                        spBox.setBackground(Color.ORANGE);
+                        p2Color = Color.ORANGE;
+                        
+                    }
                 }
             }
         }
@@ -259,42 +320,83 @@ public class MyFrame extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (e.getSource() == p1Submit) {
-                // when submitting null, it does not proceed to line of code
-                if (p1Color == null) {
-                    System.out.println("Player 1 must choose a color first!");
-                    return;
+            if(roundCount % 2 != 0) {
+                if(p1guessing) {
+                    if(e.getSource() == p1Submit) {
+                        if (p1Color == null) {
+                            return;
+                        }
+                        spBox.setBackground(Color.WHITE);
+                        
+                        p1guessing = false;
+                        p2guessing = true;
+
+                        sp.setText("Player 2's turn");
+                    }
+                    else if(e.getSource() == p1Clear) {
+                        spBox.setBackground(Color.WHITE);
+                    }
                 }
 
-                player1 = false;
-                player2 = true;
-                spBox.setBackground(Color.WHITE);
-                System.out.println("Player 2's turn!");
+                if(p2guessing) {
+                    if (e.getSource() == p2Submit) {
+                        if (p2Color == null) {
+                            return;
+                        }
+                        spBox.setBackground(Color.WHITE);
+
+                        if(p1Color == p2Color) {
+                            p2score += 1;
+                            player2.setText("Player 2 - " + p2score);
+                        }
+
+                        roundCount++;
+                        roundLabel.setText("Round " + roundCount);
+                    }
+                    else if(e.getSource() == p2Clear) {
+                        spBox.setBackground(Color.WHITE);
+                    }
+                }
             }
 
-            if (e.getSource() == p2Submit) {
-                if (p2Color == null) {
-                    System.out.println("Player 2 must choose a color first!");
-                    return;
+            else if(roundCount % 2 == 0)  {
+                if(p1guessing) {
+                    if(e.getSource() == p1Submit) {
+                        if (p1Color == null) {
+                            return;
+                        }
+                        spBox.setBackground(Color.WHITE);
+
+                        if(p1Color == p2Color) {
+                            p1score += 1;
+                            player1.setText("Player 1 - " + p1score);
+                        }
+                        
+                        roundCount++;
+                        roundLabel.setText("Round " + roundCount);
+                    }
+                    else if(e.getSource() == p1Clear) {
+                        spBox.setBackground(Color.WHITE);
+                    }
                 }
 
-                player1 = true;
-                player2 = false;
-                spBox.setBackground(Color.WHITE);
+                if(p2guessing) {
+                    if (e.getSource() == p2Submit) {
+                        if (p2Color == null) {
+                            return;
+                        }
+                        spBox.setBackground(Color.WHITE);
 
-                if (p1Color == p2Color) {
-                    score += 1;
-                    System.out.println("Round won! Updated Score: " + score);
-                } else {
-                    System.out.println("Round lost!");
+                        p1guessing = true;
+                        p2guessing = false;
+
+                        sp.setText("Player 1's turn");
+                    }
+                    else if(e.getSource() == p2Clear) {
+                        spBox.setBackground(Color.WHITE);
+                    }
                 }
-
-                // Resets for next round
-                p1Color = null;
-                p2Color = null;
             }
         }
-
     }
-
 }

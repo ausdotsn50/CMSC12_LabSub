@@ -226,13 +226,8 @@ public class MyFrame extends JFrame {
         // to fix more in detail
         @Override
         public void keyPressed(KeyEvent e) {
-            if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
-                backspaceFunction();
-            }
-            else if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-                double result = evaluateExpression(textField.getText());
-                textField.setText("" + result);
-            }
+            int code = e.getKeyCode();
+            System.out.println(code);
         }
 
     
