@@ -195,7 +195,6 @@ public class MyFrame extends JFrame {
         }
 
         @Override
-        
         public void keyTyped(KeyEvent e) {
             char getChar = e.getKeyChar();
             String charTyped = String.valueOf(getChar); // converts ch to String: https://www.digitalocean.com/community/tutorials/convert-char-to-string-java

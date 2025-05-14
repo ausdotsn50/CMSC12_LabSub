@@ -41,7 +41,6 @@ public class MyFrame extends JFrame {
 
     public MyFrame() {
         EventHandler handler = new EventHandler();
-        
 
         // MyFrame properties
         setSize(width, height);
